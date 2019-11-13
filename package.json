@@ -1,0 +1,26 @@
+{
+  "name": "hw09-developer-profile-generator",
+  "version": "1.0.0",
+  "description": "Generate a profile based on your github after answering a few questions.",
+  "main": "./scripts/app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hfurusho/hw09-developer-profile-generator.git"
+  },
+  "keywords": [
+    "profile",
+    "generator"
+  ],
+  "author": "hfurusho",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hfurusho/hw09-developer-profile-generator/issues"
+  },
+  "homepage": "https://github.com/hfurusho/hw09-developer-profile-generator#readme",
+  "dependencies": {
+    "inquirer": "^7.0.0"
+  }
+}
