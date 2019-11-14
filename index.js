@@ -8,8 +8,8 @@ init();
 async function init() {
   try {
     const answers = await promptUser();
-    const gitData = await getGithubInfo(answers.githubUsername);
-    console.log(gitData);
+    const githubData = await getGithubInfo(answers.githubUsername);
+    generateHTML(githubData, answers.favoriteColor);
   } catch (err) {
     console.log(err);
   }
@@ -40,241 +40,35 @@ function promptUser() {
   ]);
 }
 
-// { status: 200,
-//   statusText: 'OK',
-//   headers:
-//    { date: 'Wed, 13 Nov 2019 21:12:17 GMT',
-//      'content-type': 'application/json; charset=utf-8',
-//      'content-length': '1155',
-//      connection: 'close',
-//      server: 'GitHub.com',
-//      status: '200 OK',
-//      'x-ratelimit-limit': '60',
-//      'x-ratelimit-remaining': '58',
-//      'x-ratelimit-reset': '1573683136',
-//      'cache-control': 'public, max-age=60, s-maxage=60',
-//      vary: 'Accept, Accept-Encoding',
-//      etag: '"cb3360cb2f436520bd921a6ded453b3c"',
-//      'last-modified': 'Mon, 11 Nov 2019 21:04:17 GMT',
-//      'x-github-media-type': 'github.v3',
-//      'access-control-expose-headers':
-//       'ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type',
-//      'access-control-allow-origin': '*',
-//      'strict-transport-security': 'max-age=31536000; includeSubdomains; preload',
-//      'x-frame-options': 'deny',
-//      'x-content-type-options': 'nosniff',
-//      'x-xss-protection': '1; mode=block',
-//      'referrer-policy': 'origin-when-cross-origin, strict-origin-when-cross-origin',
-//      'content-security-policy': 'default-src \'none\'',
-//      'x-github-request-id': 'FD92:374C:DE2DA:107C09:5DCC71B0' },
-//   config:
-//    { url: 'https://api.github.com/users/hfurusho',
-//      method: 'get',
-//      headers:
-//       { Accept: 'application/json, text/plain, */*',
-//         'User-Agent': 'axios/0.19.0' },
-//      transformRequest: [ [Function: transformRequest] ],
-//      transformResponse: [ [Function: transformResponse] ],
-//      timeout: 0,
-//      adapter: [Function: httpAdapter],
-//      xsrfCookieName: 'XSRF-TOKEN',
-//      xsrfHeaderName: 'X-XSRF-TOKEN',
-//      maxContentLength: -1,
-//      validateStatus: [Function: validateStatus],
-//      data: undefined },
-//   request:
-//    ClientRequest {
-//      _events:
-//       [Object: null prototype] {
-//         socket: [Function],
-//         abort: [Function],
-//         aborted: [Function],
-//         error: [Function],
-//         timeout: [Function],
-//         prefinish: [Function: requestOnPrefinish] },
-//      _eventsCount: 6,
-//      _maxListeners: undefined,
-//      output: [],
-//      outputEncodings: [],
-//      outputCallbacks: [],
-//      outputSize: 0,
-//      writable: true,
-//      _last: true,
-//      chunkedEncoding: false,
-//      shouldKeepAlive: false,
-//      useChunkedEncodingByDefault: false,
-//      sendDate: false,
-//      _removedConnection: false,
-//      _removedContLen: false,
-//      _removedTE: false,
-//      _contentLength: 0,
-//      _hasBody: true,
-//      _trailer: '',
-//      finished: true,
-//      _headerSent: true,
-//      socket:
-//       TLSSocket {
-//         _tlsOptions: [Object],
-//         _secureEstablished: true,
-//         _securePending: false,
-//         _newSessionPending: false,
-//         _controlReleased: true,
-//         _SNICallback: null,
-//         servername: 'api.github.com',
-//         alpnProtocol: false,
-//         authorized: true,
-//         authorizationError: null,
-//         encrypted: true,
-//         _events: [Object],
-//         _eventsCount: 8,
-//         connecting: false,
-//         _hadError: false,
-//         _handle: [TLSWrap],
-//         _parent: null,
-//         _host: 'api.github.com',
-//         _readableState: [ReadableState],
-//         readable: true,
-//         _maxListeners: undefined,
-//         _writableState: [WritableState],
-//         writable: false,
-//         allowHalfOpen: false,
-//         _sockname: null,
-//         _pendingData: null,
-//         _pendingEncoding: '',
-//         server: undefined,
-//         _server: null,
-//         ssl: [TLSWrap],
-//         _requestCert: true,
-//         _rejectUnauthorized: true,
-//         parser: null,
-//         _httpMessage: [Circular],
-//         [Symbol(res)]: [TLSWrap],
-//         [Symbol(asyncId)]: 6,
-//         [Symbol(lastWriteQueueSize)]: 0,
-//         [Symbol(timeout)]: null,
-//         [Symbol(kBytesRead)]: 0,
-//         [Symbol(kBytesWritten)]: 0,
-//         [Symbol(connect-options)]: [Object] },
-//      connection:
-//       TLSSocket {
-//         _tlsOptions: [Object],
-//         _secureEstablished: true,
-//         _securePending: false,
-//         _newSessionPending: false,
-//         _controlReleased: true,
-//         _SNICallback: null,
-//         servername: 'api.github.com',
-//         alpnProtocol: false,
-//         authorized: true,
-//         authorizationError: null,
-//         encrypted: true,
-//         _events: [Object],
-//         _eventsCount: 8,
-//         connecting: false,
-//         _hadError: false,
-//         _handle: [TLSWrap],
-//         _parent: null,
-//         _host: 'api.github.com',
-//         _readableState: [ReadableState],
-//         readable: true,
-//         _maxListeners: undefined,
-//         _writableState: [WritableState],
-//         writable: false,
-//         allowHalfOpen: false,
-//         _sockname: null,
-//         _pendingData: null,
-//         _pendingEncoding: '',
-//         server: undefined,
-//         _server: null,
-//         ssl: [TLSWrap],
-//         _requestCert: true,
-//         _rejectUnauthorized: true,
-//         parser: null,
-//         _httpMessage: [Circular],
-//         [Symbol(res)]: [TLSWrap],
-//         [Symbol(asyncId)]: 6,
-//         [Symbol(lastWriteQueueSize)]: 0,
-//         [Symbol(timeout)]: null,
-//         [Symbol(kBytesRead)]: 0,
-//         [Symbol(kBytesWritten)]: 0,
-//         [Symbol(connect-options)]: [Object] },
-//      _header:
-//       'GET /users/hfurusho HTTP/1.1\r\nAccept: application/json, text/plain, */*\r\nUser-Agent: axios/0.19.0\r\nHost: api.github.com\r\nConnection: close\r\n\r\n',
-//      _onPendingData: [Function: noopPendingOutput],
-//      agent:
-//       Agent {
-//         _events: [Object],
-//         _eventsCount: 1,
-//         _maxListeners: undefined,
-//         defaultPort: 443,
-//         protocol: 'https:',
-//         options: [Object],
-//         requests: {},
-//         sockets: [Object],
-//         freeSockets: {},
-//         keepAliveMsecs: 1000,
-//         keepAlive: false,
-//         maxSockets: Infinity,
-//         maxFreeSockets: 256,
-//         maxCachedSessions: 100,
-//         _sessionCache: [Object] },
-//      socketPath: undefined,
-//      timeout: undefined,
-//      method: 'GET',
-//      path: '/users/hfurusho',
-//      _ended: true,
-//      res:
-//       IncomingMessage {
-//         _readableState: [ReadableState],
-//         readable: false,
-//         _events: [Object],
-//         _eventsCount: 3,
-//         _maxListeners: undefined,
-//         socket: [TLSSocket],
-//         connection: [TLSSocket],
-//         httpVersionMajor: 1,
-//         httpVersionMinor: 1,
-//         httpVersion: '1.1',
-//         complete: true,
-//         headers: [Object],
-//         rawHeaders: [Array],
-//         trailers: {},
-//         rawTrailers: [],
-//         aborted: false,
-//         upgrade: false,
-//         url: '',
-//         method: null,
-//         statusCode: 200,
-//         statusMessage: 'OK',
-//         client: [TLSSocket],
-//         _consuming: true,
-//         _dumped: false,
-//         req: [Circular],
-//         responseUrl: 'https://api.github.com/users/hfurusho',
-//         redirects: [] },
-//      aborted: undefined,
-//      timeoutCb: null,
-//      upgradeOrConnect: false,
-//      parser: null,
-//      maxHeadersCount: null,
-//      _redirectable:
-//       Writable {
-//         _writableState: [WritableState],
-//         writable: true,
-//         _events: [Object],
-//         _eventsCount: 2,
-//         _maxListeners: undefined,
-//         _options: [Object],
-//         _redirectCount: 0,
-//         _redirects: [],
-//         _requestBodyLength: 0,
-//         _requestBodyBuffers: [],
-//         _onNativeResponse: [Function],
-//         _currentRequest: [Circular],
-//         _currentUrl: 'https://api.github.com/users/hfurusho' },
-//      [Symbol(isCorked)]: false,
-//      [Symbol(outHeadersKey)]:
-//       [Object: null prototype] { accept: [Array], 'user-agent': [Array], host: [Array] } },
+function generateHTML(githubData, favColor) {
+  const {
+    avatar_url: imgUrl,
+    name,
+    location,
+    html_url: githubUrl,
+    blog: blogUrl,
+    bio,
+    followers,
+    public_gists: stars,
+    following
+  } = githubData;
+  console.log(imgUrl, name, location);
+}
+
+// Profile image
+// User name
+// Links to the following:
+// User location via Google Maps
+// User GitHub profile
+// User blog
+
+// User bio
+// Number of public repositories
+// Number of followers
+// Number of GitHub stars
+// Number of users following
+
+// {
 //   data:
 //    { login: 'hfurusho',
 //      id: 51175640,
