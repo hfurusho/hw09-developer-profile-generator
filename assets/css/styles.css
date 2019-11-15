@@ -1,0 +1,40 @@
+body {
+  background-color: lightsteelblue;
+  margin: 0px;
+}
+
+.top {
+  position: relative;
+  top: 100px;
+  background-color: orange;
+  border-radius: 5px;
+  margin: 3rem;
+  padding: 1rem;
+  padding-left: 27%;
+  /* text-align: center; */
+  height: 300px;
+}
+
+.top h1 {
+  /* padding-left: 30%; */
+  color: white;
+  font-size: 42px;
+}
+
+img {
+  position: absolute;
+  top: -3rem;
+  left: -2rem;
+  background-color: white;
+  border: 5px solid white;
+  border-radius: 127px;
+}
+
+.middle {
+  background-color: gray;
+  padding: 3rem;
+}
+
+.grid-container {
+  display: grid;
+}
