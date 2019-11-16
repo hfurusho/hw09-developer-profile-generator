@@ -2,6 +2,9 @@ const fs = require("fs");
 const util = require("util");
 const inquirer = require("inquirer");
 const axios = require("axios");
+const generateHtml = require("./generateHtml.js");
+
+const writeFileAsync = util.promisify(fs.writeFile);
 
 init();
 
@@ -9,7 +12,8 @@ async function init() {
   try {
     const answers = await promptUser();
     const githubData = await getGithubInfo(answers.githubUsername);
-    generateHTML(githubData, answers.favoriteColor);
+    const html = generateHtml(githubData, answers.favoriteColor);
+    writeFileAsync("./test.html", html);
   } catch (err) {
     console.log(err);
   }
@@ -38,21 +42,6 @@ function promptUser() {
       message: "What is your favorite color?"
     }
   ]);
-}
-
-function generateHTML(githubData, favColor) {
-  const {
-    avatar_url: imgUrl,
-    name,
-    location,
-    html_url: githubUrl,
-    blog: blogUrl,
-    bio,
-    followers,
-    public_gists: stars,
-    following
-  } = githubData;
-  console.log(imgUrl, name, location);
 }
 
 // Profile image
