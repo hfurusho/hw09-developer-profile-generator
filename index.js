@@ -51,7 +51,7 @@ function promptUser() {
 
 async function printPDF(html, name) {
   const filename = `${name.replace(/ /g, "-")}-profile.pdf`;
-  const browser = await puppeteer.launch();
+  const browser = await puppeteer.launch({ headless: true });
   const page = await browser.newPage();
   await page.setContent(html, { waitUntil: "networkidle0" });
   await page.pdf({ path: filename, format: "A4", printBackground: true });
