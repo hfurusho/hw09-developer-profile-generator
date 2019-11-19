@@ -6,4 +6,4 @@ This application quickly generates a github profile page as a html file and pdf 
 
 ## Example
 
-![Demo of app](https://gfycat.com/shamefulbelovedjoey.gif)
+![Demo of app](https://gfycat.com/ShamefulBelovedJoey.gif)
