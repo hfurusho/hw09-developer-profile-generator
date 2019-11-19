@@ -7,15 +7,6 @@ const puppeteer = require("puppeteer");
 
 const writeFileAsync = util.promisify(fs.writeFile);
 
-async function printPDF(html) {
-  const browser = await puppeteer.launch();
-  const page = await browser.newPage();
-  await page.setContent(html, { waitUntil: "networkidle0" });
-  await page.pdf({ path: "test.pdf", format: "A4", printBackground: true });
-
-  await browser.close();
-}
-
 init();
 
 async function init() {
@@ -23,8 +14,10 @@ async function init() {
     const answers = await promptUser();
     const githubData = await getGithubInfo(answers.githubUsername);
     const html = generateHtml(githubData, answers.themeColor);
-    await writeFileAsync("./test.html", html);
-    await printPDF(html);
+    const filename = `${githubData.name.replace(/ /g, "-")}-profile.html`;
+    await writeFileAsync(filename, html);
+    console.log("html file saved as " + filename);
+    await printPDF(html, githubData.name);
   } catch (err) {
     console.log(err);
   }
@@ -54,4 +47,14 @@ function promptUser() {
       choices: ["green", "blue", "pink", "red"]
     }
   ]);
+}
+
+async function printPDF(html, name) {
+  const filename = `${name.replace(/ /g, "-")}-profile.pdf`;
+  const browser = await puppeteer.launch();
+  const page = await browser.newPage();
+  await page.setContent(html, { waitUntil: "networkidle0" });
+  await page.pdf({ path: filename, format: "A4", printBackground: true });
+  console.log("PDF file generated as " + filename);
+  await browser.close();
 }
