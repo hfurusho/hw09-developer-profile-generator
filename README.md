@@ -6,4 +6,4 @@ This application quickly generates a github profile page as a html file and pdf 
 
 ## Example
 
-![Demo of app](./assets/Demo.webmd)
+![Demo of app](./assets/Demo.webm)
