@@ -6,7 +6,7 @@ This application quickly generates a github profile page as a html file and pdf 
 
 ## Example
 
-![Demo of app](https://thumbs.gfycat.com/ShamefulBelovedJoey-size_restricted.gif)
+![Demo of app](https://github.com/hfurusho/hw09-developer-profile-generator/blob/master/assets/demo.gif)
 
 ## Links
 
